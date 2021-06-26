@@ -1,3 +1,7 @@
+<?php
+require 'connection.php';
+error_reporting( 0 );
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,70 +18,122 @@
 </head>
 <body>
 <!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark"> <a class="navbar-brand" href="#">ACME EHS TEAM</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"> <span class="navbar-toggler-icon"></span> </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item"> <a class="nav-link active" href="index.php">Home</a></li>
+    </ul>
+	 <ul class="navbar-nav">
+      <li class="nav-item"> <a class="nav-link active" href="display.php">Display</a></li>
+    </ul>  
+    <div class="offset-md-10">
+		<a href="exit.php"><button name="exit" class="btn btn-secondary">Exit</button></a>
     </div>
   </div>
 </nav>
 
 <!-- UserForm -->
-<div class="container w-50 align-items-center mt-5">
-  <div class="row justify-content-center">
-    <form method="post" class="form-container">
-      <p class="text-center fs-2">Entrance</p><hr>
+<?php
+/* show current day, time, date*/
+date_default_timezone_set( 'Asia/Kolkata' );
+$day = date( 'l' );
+$time = date( 'h:i:s' );
+$current_date = date( 'Y-m-d' );
+?>
+<div class="container w-50">
+    <form action="" method="post" class="form-container">
+      <p class="text-center fs-2">Entrance</p>
+      <hr>
       <br>
-      <div class="row ">
+      <div class="row">
         <div class=" form-group col-md-6">
-          <label for="name">*Name:-</label>
-          <input type="text" class="form-control" placeholder="Your Name" required>
+          <label class="fw-bold">*ID No:-</label>
+          <input type="number" name="id" class="form-control" placeholder="Enter ID" required>
         </div>
         <div class="col-md-6">
-          <label for="email">*E-mail:-</label>
-          <input type="email" class="form-control" placeholder="Your Email" required>
+          <label class="fw-bold">*Name:-</label>
+          <input type="text" name="name" class="form-control" placeholder="Enter Name" required>
         </div>
       </div>
       <div class="row">
         <div class=" form-group col-md-6">
-          <label for="pass">*Password:-</label>
-          <input type="password" class="form-control" placeholder="Enter password" required>
+          <label class="fw-bold">*Trade:-</label>
+          <input type="text" name="trade" class="form-control" placeholder="Enter Trade" required>
         </div>
         <div class="col-md-6">
-          <label for="re-pass">*Re-enter password:-</label>
-          <input type="password" class="form-control" placeholder="Re-enter password" required>
+          <label class="fw-bold">*Father's Name:-</label>
+          <input type="text" name="fname" class="form-control" placeholder="Enter Father's Name" required>
         </div>
       </div>
       <div class="row">
         <div class="form-group col-md-6">
-          <label for="age">*Age:-</label>
-          <input type="number" class="form-control" placeholder="Enter age" required>
+          <label class="fw-bold">*Government ID:-</label>
+          <input type="text" name="gid" class="form-control" placeholder="Enter Government ID" required>
         </div>
         <div class="form-group col-md-6">
-          <label for="dob">*Date-of-Birth:-</label>
-          <input type="date" class="form-control" required>
+          <label class="fw-bold">*Date-of-Birth:-</label>
+          <input type="date" name="dob" class="form-control" required>
         </div>
       </div>
-    </form>
-  </div>
+      <div class="row">
+        <div class=" form-group col-md-6">
+          <label class="fw-bold">*Current Day:-</label>
+          <input type="text" name="cday" class="form-control"  value="<?php echo $day; ?>" required>
+        </div>
+        <div class="col-md-6">
+          <label class="fw-bold">*Current Date:-</label>
+          <input type="text" name="cdate" class="form-control" value="<?php echo $current_date; ?>" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class=" form-group col-md-6">
+          <label class="fw-bold">*Entrance Time:-</label>
+          <input type="text" name="etime" class="form-control" value="<?php echo $time; ?>" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold">*Shift:-</label>
+          <input type="text" name="shift" class="form-control" required>
+        </div>
+      </div>
+      <div class="d-grid gap-2">
+        <button type="submit" name="submit" class="btn btn-dark">Submit</button>
+      </div>
+	</form>
 </div>
+<?php
+/* Insert query */
+if ( isset( $_POST[ 'submit' ] ) ) {
+  $id = $_POST[ 'id' ];
+  $name = $_POST[ 'name' ];
+  $trade = $_POST[ 'trade' ];
+  $fname = $_POST[ 'fname' ];
+  $gid = $_POST[ 'gid' ];
+  $dob = $_POST[ 'dob' ];
+  $shift = $_POST[ 'shift' ];
+  $cday = $_POST[ 'cday' ];
+  $cdate = $_POST[ 'cdate' ];
+  $etime = $_POST[ 'etime' ];
+
+  if ( $id != "" && $name != "" && $trade != "" && $fname != "" && $dob != "" && $gid != "" && $cdate != "" && $cday != "" && $shift != "" && $etime != "" ) {
+    $insertquery = "INSERT INTO `workers`(`id`, `name`, `trade`, `father_name`, `dob`, `govt_id`) VALUES ('$id', '$name', '$trade', '$fname', '$dob', '$gid');";
+    $insertquery .= "INSERT INTO `details`(`id`, `date`, `Day`, `shift`, `time_in`) VALUES ('$id', '$cdate', '$cday', '$shift', '$etime')";
+    $data = mysqli_multi_query( $conn, $insertquery );
+
+    if ( $data ) 
+	{
+      ?>
+		<script>alert('Submitted Successfully ! ');</script>
+	<?php
+	} 
+	else 
+	{
+		echo "Failed to submit !" .mysqli_error($conn);
+	}
+  }
+}
+
+?> 
 <!-- Optional JavaScript --> 
 <!-- jQuery first, then Popper.js, then Bootstrap JS --> 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> 
